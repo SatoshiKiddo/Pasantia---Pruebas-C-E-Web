@@ -5,6 +5,7 @@ def dinamic():
     if os.path.exists("./scrappage/urls.json"):
         os.remove("./scrappage/urls.json")
     os.system("cd scrappage ; scrapy crawl scrapper -o urls.json ; cd ..")
+    os.system("locust -f rutas_dinamicas.py")
     ##Se ejecuta el locust con las url
 
 def static():
