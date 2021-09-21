@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 from locust import HttpUser, TaskSet, SequentialTaskSet, task, User, constant
 from environment_config import carga_variables_entorno
 import os

@@ -16,7 +16,7 @@ class ScrappagePipeline:
                 for ruta in f.readlines():
                     if item['url_route'].find(ruta) != -1:
                         f.close()
-                        item= None
+                        item['url_route']="/"
                     f.close()
         except FileNotFoundError as e:
             print("Error de archivo - " + e.strerror)
