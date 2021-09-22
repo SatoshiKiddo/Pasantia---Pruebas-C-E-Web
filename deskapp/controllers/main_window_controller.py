@@ -1,4 +1,6 @@
+from logging import exception
 from PySide2.QtCore import Qt
+from PySide2.QtGui import QColor
 from PySide2.QtWidgets import QFileDialog, QTableWidgetItem, QWidget
 from views.main_window import MainWindowForm
 from dotenv import load_dotenv
@@ -9,6 +11,7 @@ import os
 import multiprocessing
 import threading
 import time
+import sys
 
 load_dotenv()
 
@@ -69,6 +72,8 @@ class MainWindowController(QWidget, MainWindowForm):
     exclude_route_ale=False
     proceso_ejecucion=None
     proceso=None
+    celda=-1
+    table_populated=False
 
     rutas=[]
 
@@ -92,6 +97,9 @@ class MainWindowController(QWidget, MainWindowForm):
         self.DependencyAleFile.clicked.connect(self.select_file_dependencies_ale)
         self.DinamicExecution.clicked.connect(self.execution_dinamic)
         self.StaticExecution.clicked.connect(self.execution_static)
+        self.RouteTables.cellClicked.connect(self.cell_selected)
+        self.RouteTables.cellChanged.connect(self.cell_changed)
+        self.actualizarTabla.clicked.connect(self.refresh)
         self.LinePort.setPlaceholderText(self.PORT)
         self.LineHost.setPlaceholderText(self.HOST)
         self.LineRoute.setPlaceholderText(self.FILE_ROUTES_APP)
@@ -100,19 +108,6 @@ class MainWindowController(QWidget, MainWindowForm):
         self.LineRouteAle.setPlaceholderText(self.FILE_ALEATORY_EX_APP)
         self.table_config()
 
-    def refresh(self):
-        pass
-
-    def refresh_table(self, archivo):
-        os.remove(archivo)
-        with open(archivo, 'w') as f:
-            f.writelines(self.rutas)
-
-    def refreshTable(self):
-        self.populate_table(self.rutas)
-        self.refresh_table(self.FILE_SELECTED)
-
-
     def closeEvent(self, event):
         if(self.proceso_ejecucion):
             if(self.proceso_ejecucion.is_alive()):
@@ -120,55 +115,101 @@ class MainWindowController(QWidget, MainWindowForm):
         if(self.proceso):
             if(self.proceso.is_alive()):
                 self.proceso.stop()
+        self.logging("Cierre de aplicacion", "-v")
         event.accept()
+
+    def existencia_file(self, ruta):
+        try:
+            open(ruta)
+            self.logging("Archivo cargado", "-v")
+        except:
+            self.logging("Error: archivo inexistente", "-q")
+            return False
+        return True
+
+
+    def logging(self,text, valor):
+        self.errorLine.setText(text)
+        os.system("./logging.sh " + valor + " " + text)
+        if(valor == "-q"):
+            self.errorLine.setTextColor(QColor(255,0,0))
+        else:
+            self.errorLine.setTextColor(QColor(255,255,255))
+
+    def refresh(self):
+        os.environ['HOST']= self.HOST
+        os.environ['PORT']= self.PORT
+        os.environ['FILE_ROUTES_APP']= self.FILE_ROUTES_APP
+        os.environ['FILE_ALEATORY_EX_APP']= self.FILE_ALEATORY_EX_APP
+        os.environ['FILE_DEPENDENCIES_APP']= self.FILE_DEPENDENCIES_APP
+        os.environ['FILE_ALEATORY_APP']= self.FILE_ALEATORY_APP
+        self.logging("Actualizacion de variables de entorno", "-v")
+
+    def refresh_file(self, archivo):
+        if(self.existencia_file(archivo)):
+            os.remove(archivo)
+            with open(archivo, 'w') as f:
+                f.writelines(self.rutas)
+            self.logging("Actualizacion de archivos de entorno", "-v")
+        else:
+            self.logging("Archivo inexistente o no seleccionado", "-q")
+
+    def refreshTable(self):
+        self.refresh()
+        self.populate_table(self.rutas)
+        self.refresh_file(self.FILE_SELECTED)
 
     def select_routes(self):
         self.FILE_SELECTED=self.FILE_ROUTES_APP
-        with open(self.FILE_ROUTES_APP) as f:
-            self.rutas=[]
-            rutas = f.readlines()
-            rutas_items = []
-            for r in rutas:
-                self.rutas.append(r)
-                ruta = r.replace('\n','').split(',')
-                rutas_items.append(ruta)
-            self.populate_table(rutas_items)
+        if(self.existencia_file(self.FILE_SELECTED)):
+            with open(self.FILE_SELECTED) as f:
+                self.rutas=[]
+                rutas = f.readlines()
+                rutas_items = []
+                for r in rutas:
+                    self.rutas.append(r)
+                    ruta = r.replace('\n','').split(',')
+                    rutas_items.append(ruta)
+                self.populate_table(rutas_items)
 
     def select_routes_ale(self):
         self.FILE_SELECTED=self.FILE_ALEATORY_EX_APP
-        with open(self.FILE_ALEATORY_EX_APP) as f:
-            self.rutas=[]
-            rutas = f.readlines()
-            rutas_items = []
-            for r in rutas:
-                self.rutas.append(r)
-                ruta = r.replace('\n','').split(',')
-                rutas_items.append(ruta)
-            self.populate_table(rutas_items)
+        if(self.existencia_file(self.FILE_SELECTED)):
+            with open(self.FILE_SELECTED) as f:
+                self.rutas=[]
+                rutas = f.readlines()
+                rutas_items = []
+                for r in rutas:
+                    self.rutas.append(r)
+                    ruta = r.replace('\n','').split(',')
+                    rutas_items.append(ruta)
+                self.populate_table(rutas_items)
 
     def select_dependencies(self):
         self.FILE_SELECTED=self.FILE_DEPENDENCIES_APP
-        with open(self.FILE_DEPENDENCIES_APP) as f:
-            self.rutas=[]
-            rutas = f.readlines()
-            rutas_items = []
-            for r in rutas:
-                self.rutas.append(r)
-                ruta = r.replace('\n','').split(',')
-                rutas_items.append(ruta)
-            self.populate_table(rutas_items)
+        if(self.existencia_file(self.FILE_SELECTED)):
+            with open(self.FILE_SELECTED) as f:
+                self.rutas=[]
+                rutas = f.readlines()
+                rutas_items = []
+                for r in rutas:
+                    self.rutas.append(r)
+                    ruta = r.replace('\n','').split(',')
+                    rutas_items.append(ruta)
+                self.populate_table(rutas_items)
 
     def select_dependencies_ale(self):
         self.FILE_SELECTED=self.FILE_ALEATORY_APP
-        with open(self.FILE_ALEATORY_APP) as f:
-            self.rutas=[]
-            rutas = f.readlines()
-            rutas_items = []
-            for r in rutas:
-                self.rutas.append(r)
-                ruta = r.replace('\n','').split(',')
-                rutas_items.append(ruta)
-            self.populate_table(rutas_items)
+        if(self.existencia_file(self.FILE_SELECTED)):
+            with open(self.FILE_SELECTED) as f:
+                self.rutas=[]
+                rutas = f.readlines()
+                rutas_items = []
+                for r in rutas:
+                    self.rutas.append(r)
+                    ruta = r.replace('\n','').split(',')
+                    rutas_items.append(ruta)
+                self.populate_table(rutas_items)
 
     def table_config(self):
         column_headers = ("Metodo", "Endpoint", "Body")
@@ -176,6 +217,7 @@ class MainWindowController(QWidget, MainWindowForm):
         self.RouteTables.setHorizontalHeaderLabels(column_headers)
 
     def populate_table(self,data):
+        self.table_populated=False
         self.RouteTables.setRowCount(0)
         self.RouteTables.setRowCount(len(data))
         for(index_row, row) in enumerate(data):
@@ -184,66 +226,88 @@ class MainWindowController(QWidget, MainWindowForm):
         self.RouteTables.resizeRowsToContents()
         self.RouteTables.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
         self.RouteTables.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
+        self.table_populated=True
+        self.logging("Llenado de tabla con ruta: " + self.FILE_SELECTED, "-v")
 
     def select_file_routes(self):
         self.FILE_ROUTES_APP = QFileDialog.getOpenFileName()[0] # show an "Open" dialog box and return the path to the selected file
-        if(self.FILE_ROUTES_APP == ""):
+        if(not self.existencia_file(self.FILE_ROUTES_APP)):
             self.FILE_ROUTES_APP=os.getenv('FILE_ROUTES_APP')
+        self.logging("Actualizacion de archivo de rutas fijas", "-v")
 
     def select_file_routes_ale(self):
         self.FILE_ALEATORY_EX_APP = QFileDialog.getOpenFileName()[0] # show an "Open" dialog box and return the path to the selected file
-        if(self.FILE_ALEATORY_EX_APP == ""):
-            self.FILE_ALEATORY_EX_APP=os.getenv('FILE_ALEATORY_EX_APP')
+        if(not self.existencia_file(self.FILE_ALEATORY_EX_APP)):
+            self.FILE_ROUTES_APP=os.getenv('FILE_ALEATORY_EX_APP')
+        self.logging("Actualizacion de archivo de rutas aleatorias", "-v")
 
     def select_file_dependencies(self):
         self.FILE_DEPENDENCIES_APP = QFileDialog.getOpenFileName()[0] # show an "Open" dialog box and return the path to the selected file
-        if(self.FILE_DEPENDENCIES_APP == ""):
-            self.FILE_DEPENDENCIES_APP=os.getenv('FILE_DEPENDENCIES_APP')
+        if(not self.existencia_file(self.FILE_DEPENDENCIES_APP)):
+            self.FILE_ROUTES_APP=os.getenv('FILE_DEPENDENCIES_APP')
+        self.logging("Actualizacion de archivo de dependencias fijas", "-v")
 
     def select_file_dependencies_ale(self):
         self.FILE_ALEATORY_APP = QFileDialog.getOpenFileName()[0] # show an "Open" dialog box and return the path to the selected file
-        if(self.FILE_ALEATORY_APP == ""):
-            self.FILE_ALEATORY_APP=os.getenv('FILE_ALEATORY_APP')
+        if(not self.existencia_file(self.FILE_ALEATORY_APP)):
+            self.FILE_ROUTES_APP=os.getenv('FILE_ALEATORY_APP')
+        self.logging("Actualizacion de archivo de dependencias aleatorias", "-v")
 
     def change_file_routes(self):
-        self.FILE_ROUTES_APP=self.LinePort.toPlainText()
-        if(self.FILE_ROUTES_APP == ""):
+        self.FILE_ROUTES_APP=self.LineRoute.toPlainText()
+        if(not self.existencia_file(self.FILE_ROUTES_APP)):
             self.FILE_ROUTES_APP=os.getenv('FILE_ROUTES_APP')
+            self.logging("No existe archivo de rutas fijas", "-v")
+        else:
+            self.logging("Actualizacion de archivo de rutas fijas", "-v")
 
 
     def change_file_routes_ale(self):
-        self.FILE_ALEATORY_EX_APP=self.LinePort.toPlainText()
-        if(self.FILE_ALEATORY_EX_APP == ""):
-            self.FILE_ALEATORY_EX_APP=os.getenv('FILE_ALEATORY_EX_APP')
+        self.FILE_ALEATORY_EX_APP=self.LineRouteAle.toPlainText()
+        if(not self.existencia_file(self.FILE_ALEATORY_EX_APP)):
+            self.FILE_ROUTES_APP=os.getenv('FILE_ALEATORY_EX_APP')
+            self.logging("No existe archivo de rutas aleatorias", "-v")
+        else:
+            self.logging("Actualizacion de archivo de rutas aleatorias", "-v")
 
     def change_file_dependencies(self):
-        self.FILE_DEPENDENCIES_APP=self.LinePort.toPlainText()
-        if(self.FILE_DEPENDENCIES_APP == ""):
-            self.FILE_DEPENDENCIES_APP=os.getenv('FILE_DEPENDENCIES_APP')
+        self.FILE_DEPENDENCIES_APP=self.LineDependency.toPlainText()
+        if(not self.existencia_file(self.FILE_DEPENDENCIES_APP)):
+            self.FILE_ROUTES_APP=os.getenv('FILE_DEPENDENCIES_APP')
+            self.logging("No existe archivo de dependencias", "-v")
+        else:
+            self.logging("Actualizacion de archivo de dependencias fijas", "-v")
 
 
     def change_file_dependencies_ale(self):
-        self.FILE_ALEATORY_APP=self.LinePort.toPlainText()
-        if(self.FILE_ALEATORY_APP == ""):
-            self.FILE_ALEATORY_APP=os.getenv('FILE_ALEATORY_APP')
+        self.FILE_ALEATORY_APP=self.LineDependencyAle.toPlainText()
+        if(not self.existencia_file(self.FILE_ALEATORY_APP)):
+            self.FILE_ROUTES_APP=os.getenv('FILE_ALEATORY_APP')
+            self.logging("No existe archivo de dependencias aleatorias", "-v")
+        else:
+            self.logging("Actualizacion de archivo de dependencias aleatorias", "-v")
 
     def change_host(self):
         self.HOST=self.LineHost.toPlainText()
         if(self.HOST == ""):
             self.HOST=os.getenv('HOST')
+        self.logging("Actualizacion de HOST objetivo", "-v")
 
     def change_port(self):
         self.PORT=self.LinePort.toPlainText()
         if(self.PORT == ""):
             self.PORT=os.getenv('PORT')
+        self.logging("Actualizacion de PORT objetivo", "-v")
 
     def execution_dinamic(self):
+        self.logging("Ejecucion dinamica de pruebas de carga y estres", "-v")
         self.proceso_ejecucion= EjecucionLoadThread("python3 loadtestweb.py -d")
         self.proceso_ejecucion.start()
         self.proceso= ThreadAlive(self.DinamicExecution,self.StaticExecution, self.proceso_ejecucion)
         self.proceso.start()
 
     def execution_static(self):
+        self.logging("Ejecucion estatica de pruebas de carga y estres", "-v")
         exclution=""
         if(self.exclude_route_ale):
             exclution= exclution + " " + self.exclude_route_ale
@@ -260,7 +324,21 @@ class MainWindowController(QWidget, MainWindowForm):
 
     def condition_route_ale(self):
         self.exclude_route_ale=self.CheckRouteAle.isChecked()
+        self.logging("Rutas aleatorias excluidas", "-v")
 
     def condition_route(self):
         self.exclude_route=self.CheckRoute.isChecked()
+        self.logging("Rutas estaticas excluidas", "-v")
+    
+    def cell_selected(self, row, column):
+        self.celda=row
+        self.logging("Ruta " + (str(row + 1)) + " seleccionada.", "-v")
 
+    def cell_changed(self, row, column):
+        if(self.table_populated):
+            items=[]
+            for i in range(self.RouteTables.columnCount()) :
+                items.append(self.RouteTables.item(row, i).text())
+            print(items)
+            self.rutas[row]= items[0] + "," + items[1] + "," + items[2]
+            self.logging("Ruta " + (str(row + 1)) + " modificada.", "-v")

@@ -239,6 +239,22 @@ QPushButton:hover
      <string>Rutas Ale</string>
     </property>
    </widget>
+   <widget class="QLabel" name="errorLine">
+    <property name="geometry">
+     <rect>
+      <x>508</x>
+      <y>19</y>
+      <width>251</width>
+      <height>91</height>
+     </rect>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::LeftToRight</enum>
+    </property>
+    <property name="text">
+     <string>Error</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QTableView" name="RouteTables">
    <property name="geometry">
