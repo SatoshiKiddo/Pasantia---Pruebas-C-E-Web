@@ -1,0 +1,665 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Form</class>
+ <widget class="QWidget" name="Form">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>700</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QFrame" name="frame">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>781</width>
+     <height>131</height>
+    </rect>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::Box</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Plain</enum>
+   </property>
+   <property name="lineWidth">
+    <number>3</number>
+   </property>
+   <widget class="QPushButton" name="Routes">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>113</width>
+      <height>91</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton
+{	
+	height: 2em;
+ 	border-style: solid;
+	border-width: 2px;
+ 	border-color: #0069c0;
+	font-weight: bold;
+}
+
+QPushButton:hover
+{
+   	background-color:#0069c0;
+	color:white;
+}</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>../assets/Iconos/document_edit.png</normaloff>../assets/Iconos/document_edit.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>100</width>
+      <height>100</height>
+     </size>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_3">
+    <property name="geometry">
+     <rect>
+      <x>50</x>
+      <y>100</y>
+      <width>59</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Rutas</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="Dependencies">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>10</y>
+      <width>113</width>
+      <height>91</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton
+{	
+	height: 2em;
+ 	border-style: solid;
+	border-width: 2px;
+ 	border-color: #0069c0;
+	font-weight: bold;
+}
+
+QPushButton:hover
+{
+   	background-color:#0069c0;
+	color:white;
+}</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>../assets/Iconos/document_edit.png</normaloff>../assets/Iconos/document_edit.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>100</width>
+      <height>100</height>
+     </size>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_4">
+    <property name="geometry">
+     <rect>
+      <x>140</x>
+      <y>100</y>
+      <width>91</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Dependencias</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="DependenciesAle">
+    <property name="geometry">
+     <rect>
+      <x>250</x>
+      <y>10</y>
+      <width>113</width>
+      <height>91</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton
+{	
+	height: 2em;
+ 	border-style: solid;
+	border-width: 2px;
+ 	border-color: #0069c0;
+	font-weight: bold;
+}
+
+QPushButton:hover
+{
+   	background-color:#0069c0;
+	color:white;
+}</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>../assets/Iconos/document_edit.png</normaloff>../assets/Iconos/document_edit.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>100</width>
+      <height>100</height>
+     </size>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_5">
+    <property name="geometry">
+     <rect>
+      <x>250</x>
+      <y>100</y>
+      <width>111</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Dependencias Ale</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="RoutesAle">
+    <property name="geometry">
+     <rect>
+      <x>370</x>
+      <y>10</y>
+      <width>113</width>
+      <height>91</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton
+{	
+	height: 2em;
+ 	border-style: solid;
+	border-width: 2px;
+ 	border-color: #0069c0;
+	font-weight: bold;
+}
+
+QPushButton:hover
+{
+   	background-color:#0069c0;
+	color:white;
+}</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>../assets/Iconos/document_edit.png</normaloff>../assets/Iconos/document_edit.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>100</width>
+      <height>100</height>
+     </size>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_6">
+    <property name="geometry">
+     <rect>
+      <x>410</x>
+      <y>100</y>
+      <width>59</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Rutas Ale</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QTableView" name="RouteTables">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>150</y>
+     <width>371</width>
+     <height>471</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="CheckDependencyAle">
+   <property name="geometry">
+    <rect>
+     <x>410</x>
+     <y>660</y>
+     <width>131</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Depencencia Ale</string>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="CheckRouteAle">
+   <property name="geometry">
+    <rect>
+     <x>540</x>
+     <y>660</y>
+     <width>86</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Rutas Ale</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="StaticExecution">
+   <property name="geometry">
+    <rect>
+     <x>400</x>
+     <y>610</y>
+     <width>131</width>
+     <height>32</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">
+QPushButton:hover
+{
+	border-style: solid;
+   	background-color:#bbdefb;
+
+}
+
+QPushButton:pressed
+{
+	 	background-color:#0069c0;
+}</string>
+   </property>
+   <property name="text">
+    <string>Ejecucion Estatica</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="DinamicExecution">
+   <property name="geometry">
+    <rect>
+     <x>650</x>
+     <y>610</y>
+     <width>141</width>
+     <height>32</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">
+QPushButton:hover
+{
+	border-style: solid;
+   	background-color:#bbdefb;
+
+}
+
+QPushButton:pressed
+{
+	 	background-color:#0069c0;
+}</string>
+   </property>
+   <property name="text">
+    <string>Ejecucion Dinamica</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>430</x>
+     <y>150</y>
+     <width>41</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>HOST</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignJustify|Qt::AlignVCenter</set>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="LineHost">
+   <property name="geometry">
+    <rect>
+     <x>420</x>
+     <y>170</y>
+     <width>221</width>
+     <height>21</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_2">
+   <property name="geometry">
+    <rect>
+     <x>660</x>
+     <y>150</y>
+     <width>59</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>PORT</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="LinePort">
+   <property name="geometry">
+    <rect>
+     <x>650</x>
+     <y>170</y>
+     <width>131</width>
+     <height>21</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="Line" name="line">
+   <property name="geometry">
+    <rect>
+     <x>410</x>
+     <y>200</y>
+     <width>381</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Plain</enum>
+   </property>
+   <property name="lineWidth">
+    <number>3</number>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+  </widget>
+  <widget class="Line" name="line_2">
+   <property name="geometry">
+    <rect>
+     <x>410</x>
+     <y>590</y>
+     <width>381</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Plain</enum>
+   </property>
+   <property name="lineWidth">
+    <number>3</number>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="LineRoute">
+   <property name="geometry">
+    <rect>
+     <x>410</x>
+     <y>280</y>
+     <width>341</width>
+     <height>21</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="LineDependency">
+   <property name="geometry">
+    <rect>
+     <x>410</x>
+     <y>360</y>
+     <width>341</width>
+     <height>21</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="LineDependencyAle">
+   <property name="geometry">
+    <rect>
+     <x>410</x>
+     <y>440</y>
+     <width>341</width>
+     <height>21</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="LineRouteAle">
+   <property name="geometry">
+    <rect>
+     <x>410</x>
+     <y>520</y>
+     <width>341</width>
+     <height>21</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_7">
+   <property name="geometry">
+    <rect>
+     <x>520</x>
+     <y>220</y>
+     <width>131</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>RUTA DE ARCHIVOS</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_8">
+   <property name="geometry">
+    <rect>
+     <x>410</x>
+     <y>260</y>
+     <width>59</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>RUTAS</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_9">
+   <property name="geometry">
+    <rect>
+     <x>410</x>
+     <y>340</y>
+     <width>101</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>DEPENDENCIAS</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_10">
+   <property name="geometry">
+    <rect>
+     <x>410</x>
+     <y>420</y>
+     <width>181</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>DEPENDENCIAS ALEATORIAS</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_11">
+   <property name="geometry">
+    <rect>
+     <x>410</x>
+     <y>500</y>
+     <width>131</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>RUTAS ALEATORIAS</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="RouteFile">
+   <property name="geometry">
+    <rect>
+     <x>750</x>
+     <y>280</y>
+     <width>41</width>
+     <height>32</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>../assets/Iconos/folder_open.png</normaloff>../assets/Iconos/folder_open.png</iconset>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="DependencyFile">
+   <property name="geometry">
+    <rect>
+     <x>750</x>
+     <y>350</y>
+     <width>41</width>
+     <height>32</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>../assets/Iconos/folder_open.png</normaloff>../assets/Iconos/folder_open.png</iconset>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="DependencyAleFile">
+   <property name="geometry">
+    <rect>
+     <x>750</x>
+     <y>430</y>
+     <width>41</width>
+     <height>32</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>../assets/Iconos/folder_open.png</normaloff>../assets/Iconos/folder_open.png</iconset>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="RouteAleFile">
+   <property name="geometry">
+    <rect>
+     <x>750</x>
+     <y>510</y>
+     <width>41</width>
+     <height>32</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>../assets/Iconos/folder_open.png</normaloff>../assets/Iconos/folder_open.png</iconset>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="agregarRonda">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>630</y>
+     <width>71</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>../assets/Iconos/add.png</normaloff>../assets/Iconos/add.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>100</width>
+     <height>100</height>
+    </size>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="eliminarRonda">
+   <property name="geometry">
+    <rect>
+     <x>130</x>
+     <y>630</y>
+     <width>71</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>../assets/Iconos/close.png</normaloff>../assets/Iconos/close.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>100</width>
+     <height>100</height>
+    </size>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="actualizarTabla">
+   <property name="geometry">
+    <rect>
+     <x>310</x>
+     <y>630</y>
+     <width>71</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>../assets/Iconos/check.png</normaloff>../assets/Iconos/check.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>100</width>
+     <height>100</height>
+    </size>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

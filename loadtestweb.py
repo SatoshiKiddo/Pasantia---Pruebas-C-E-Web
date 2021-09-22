@@ -2,6 +2,8 @@
 import os
 import getopt, sys
 
+exclution=""
+
 def dinamic():
     if os.path.exists("./scrappage/urls.json"):
         os.remove("./scrappage/urls.json")
@@ -24,7 +26,7 @@ def usage():
 
 def main():
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "vho:ds", ["help", "output="])
+        opts, args = getopt.getopt(sys.argv[1:], "vhE:o:ds", ["help", "output="])
     except getopt.GetoptError as err:
         # print help information and exit:
         print(err)  # will print something like "option -a not recognized"
@@ -46,6 +48,9 @@ def main():
         elif o in ("-s", "--static"):
             ##Ejecucion dinamica de pruebas
             static()
+        elif o in ("-E", "--exclude"):
+            for arg in a:
+                exclution= exclution + arg
         else:
             assert False, "unhandled option"
     # ...
