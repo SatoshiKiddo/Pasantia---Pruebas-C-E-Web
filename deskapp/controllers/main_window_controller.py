@@ -12,6 +12,7 @@ import multiprocessing
 import threading
 import time
 import sys
+import logging
 
 load_dotenv()
 
@@ -99,7 +100,8 @@ class MainWindowController(QWidget, MainWindowForm):
         self.StaticExecution.clicked.connect(self.execution_static)
         self.RouteTables.cellClicked.connect(self.cell_selected)
         self.RouteTables.cellChanged.connect(self.cell_changed)
-        self.actualizarTabla.clicked.connect(self.refresh)
+        self.actualizarTabla.clicked.connect(self.refreshTable)
+        self.eliminarRonda.clicked.connect(self.delete_route)
         self.LinePort.setPlaceholderText(self.PORT)
         self.LineHost.setPlaceholderText(self.HOST)
         self.LineRoute.setPlaceholderText(self.FILE_ROUTES_APP)
@@ -107,6 +109,13 @@ class MainWindowController(QWidget, MainWindowForm):
         self.LineDependencyAle.setPlaceholderText(self.FILE_ALEATORY_APP)
         self.LineRouteAle.setPlaceholderText(self.FILE_ALEATORY_EX_APP)
         self.table_config()
+
+    def event(self, event: PySide2.QtCore.QEvent) -> bool:
+        try:
+            return super().event(event)
+        except Exception as e:
+            self.logging(e, "-q")
+        return False
 
     def closeEvent(self, event):
         if(self.proceso_ejecucion):
@@ -123,7 +132,7 @@ class MainWindowController(QWidget, MainWindowForm):
             open(ruta)
             self.logging("Archivo cargado", "-v")
         except:
-            self.logging("Error: archivo inexistente", "-q")
+            self.logging("Archivo inexistente", "-q")
             return False
         return True
 
@@ -158,6 +167,7 @@ class MainWindowController(QWidget, MainWindowForm):
         self.refresh()
         self.populate_table(self.rutas)
         self.refresh_file(self.FILE_SELECTED)
+        self.celda=-1
 
     def select_routes(self):
         self.FILE_SELECTED=self.FILE_ROUTES_APP
@@ -224,10 +234,9 @@ class MainWindowController(QWidget, MainWindowForm):
             for(index_cell, cell) in enumerate(row):
                 self.RouteTables.setItem(index_row, index_cell, QTableWidgetItem(str(cell)))
         self.RouteTables.resizeRowsToContents()
-        self.RouteTables.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
-        self.RouteTables.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
         self.table_populated=True
-        self.logging("Llenado de tabla con ruta: " + self.FILE_SELECTED, "-v")
+        if(self.FILE_SELECTED):
+            self.logging("Llenado de tabla con ruta: " + self.FILE_SELECTED, "-v")
 
     def select_file_routes(self):
         self.FILE_ROUTES_APP = QFileDialog.getOpenFileName()[0] # show an "Open" dialog box and return the path to the selected file
@@ -342,3 +351,15 @@ class MainWindowController(QWidget, MainWindowForm):
             print(items)
             self.rutas[row]= items[0] + "," + items[1] + "," + items[2]
             self.logging("Ruta " + (str(row + 1)) + " modificada.", "-v")
+
+    def delete_route(self):
+        if(self.table_populated and self.celda != -1):
+            self.rutas.remove(self.rutas[self.celda])
+            rutas_items = []
+            for r in self.rutas:
+                ruta = r.replace('\n','').split(',')
+                rutas_items.append(ruta)
+            self.populate_table(rutas_items)
+            self.logging("Celda " + self.celda.__str__() +" eliminada.", "-v")
+        else:
+            self.logging("No hay celda seleccionada o archivo seleccionado.", "-q")

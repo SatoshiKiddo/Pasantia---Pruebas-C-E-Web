@@ -9,6 +9,17 @@ carga_variables_entorno()
 with open("./scrappage/urls.json") as jsonFile:
     jsonObject = json.load(jsonFile)
     jsonFile.close()
+    repetidos=jsonObject
+    repetidos2=[]
+    for ruta in jsonObject:
+        for ruta2 in repetidos:
+            if(ruta['url_route'] == ruta2['url_route']):
+                try:
+                    repetidos2.index(ruta['url_route'])
+                    jsonObject.remove(ruta)
+                except ValueError as e:
+                    repetidos2.append(ruta['url_route'])
+    print(jsonObject)
 
 class TareasSecuenciales(SequentialTaskSet):
 

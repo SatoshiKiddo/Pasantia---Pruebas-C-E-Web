@@ -66,9 +66,3 @@ case "$verbosity" in
        4) inf "$args" ;;
        5) debug "$args" ;;
     esac
-
-if [ "$args" ]; then
-    for arg in $args; do
-        debug "$arg"
-    done
-fi

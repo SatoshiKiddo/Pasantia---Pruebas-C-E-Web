@@ -122,6 +122,8 @@ class MainWindowForm(object):
         self.RouteTables = QTableWidget(Form)
         self.RouteTables.setObjectName(u"RouteTables")
         self.RouteTables.setGeometry(QRect(10, 150, 371, 471))
+        self.RouteTables.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
+        self.RouteTables.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
         self.CheckRoute = QCheckBox(Form)
         self.CheckRoute.setObjectName(u"CheckRoute")
         self.CheckRoute.setGeometry(QRect(410, 660, 131, 20))
