@@ -1,8 +1,12 @@
 #!/usr/bin/env python3
+from environment_config import carga_variables_entorno
 import os
 import getopt, sys
 
 exclution=""
+
+def environment():
+    carga_variables_entorno()
 
 def dinamic():
     if os.path.exists("./scrappage/urls.json"):
@@ -26,7 +30,7 @@ def usage():
 
 def main():
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "vhE:o:ds", ["help", "output="])
+        opts, args = getopt.getopt(sys.argv[1:], "vheE:o:ds", ["help", "output="])
     except getopt.GetoptError as err:
         # print help information and exit:
         print(err)  # will print something like "option -a not recognized"
@@ -48,6 +52,9 @@ def main():
         elif o in ("-s", "--static"):
             ##Ejecucion dinamica de pruebas
             static()
+        elif o in ("-e", "--env"):
+            ##Ejecucion dinamica de pruebas
+            environment()
         elif o in ("-E", "--exclude"):
             for arg in a:
                 exclution= exclution + arg
