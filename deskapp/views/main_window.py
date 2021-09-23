@@ -119,6 +119,7 @@ class MainWindowForm(object):
         self.errorLine.setObjectName(u"errorLine")
         self.errorLine.setGeometry(QRect(508, 19, 251, 91))
         self.errorLine.setLayoutDirection(Qt.LeftToRight)
+        self.errorLine.setReadOnly(True)
         self.RouteTables = QTableWidget(Form)
         self.RouteTables.setObjectName(u"RouteTables")
         self.RouteTables.setGeometry(QRect(10, 150, 371, 471))

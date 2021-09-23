@@ -102,6 +102,7 @@ class MainWindowController(QWidget, MainWindowForm):
         self.RouteTables.cellChanged.connect(self.cell_changed)
         self.actualizarTabla.clicked.connect(self.refreshTable)
         self.eliminarRonda.clicked.connect(self.delete_route)
+        self.agregarRonda.clicked.connect(self.aggregate_route)
         self.LinePort.setPlaceholderText(self.PORT)
         self.LineHost.setPlaceholderText(self.HOST)
         self.LineRoute.setPlaceholderText(self.FILE_ROUTES_APP)
@@ -109,6 +110,15 @@ class MainWindowController(QWidget, MainWindowForm):
         self.LineDependencyAle.setPlaceholderText(self.FILE_ALEATORY_APP)
         self.LineRouteAle.setPlaceholderText(self.FILE_ALEATORY_EX_APP)
         self.table_config()
+
+    def aggregate_route(self):
+        if(self.FILE_SELECTED):
+            from controllers.nueva_ruta_controller import NuevaRutaController
+            window = NuevaRutaController(self)
+            window.show()
+            self.celda=-1
+        else:
+            self.logging("No hay archivo seleccionado para agregar", "-q")
 
     def event(self, event: PySide2.QtCore.QEvent) -> bool:
         try:
