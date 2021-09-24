@@ -4,7 +4,6 @@ import os
 import sys
 
 if __name__ == "__main__":
-    os.system("cd ../" + os.getcwd())
     app = QApplication()
     window = MainWindowController()
     window.show()
