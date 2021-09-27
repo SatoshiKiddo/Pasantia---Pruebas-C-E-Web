@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-
 from locust import HttpUser, TaskSet, SequentialTaskSet, task, User, constant
 import os
 import json
