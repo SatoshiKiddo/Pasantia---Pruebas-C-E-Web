@@ -11,6 +11,7 @@ def environment():
     carga_variables_entorno()
 
 def simulation():
+    os.system("python3 ./webdriver/serverrpc.py &")
     os.system("locust " + master + exclution + worker + " -f user_simulation.py")
 
 def dinamic():

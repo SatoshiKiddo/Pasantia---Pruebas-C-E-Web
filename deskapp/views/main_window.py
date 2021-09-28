@@ -262,6 +262,34 @@ class MainWindowForm(object):
         icon4.addFile(u"./deskapp/assets/Iconos/refresh.png", QSize(), QIcon.Normal, QIcon.Off)
         self.actualizarTabla.setIcon(icon4)
         self.actualizarTabla.setIconSize(QSize(100, 100))
+        self.radioButtonMaster = QCheckBox(Form)
+        self.radioButtonMaster.setObjectName(u"radioButtonMaster")
+        self.radioButtonMaster.setGeometry(QRect(410, 560, 100, 20))
+        self.radioButtonWorker = QCheckBox(Form)
+        self.radioButtonWorker.setObjectName(u"radioButtonWorker")
+        self.radioButtonWorker.setGeometry(QRect(480, 560, 100, 20))
+        self.HOST_MASTER = QLineEdit(Form)
+        self.HOST_MASTER.setObjectName(u"HOST_MASTER")
+        self.HOST_MASTER.setGeometry(QRect(620, 560, 161, 21))
+        self.HOST_MASTER_LABEL = QLabel(Form)
+        self.HOST_MASTER_LABEL.setObjectName(u"HOST_MASTER_LABEL")
+        self.HOST_MASTER_LABEL.setGeometry(QRect(570, 560, 41, 16))
+        self.SimulationExecution = QPushButton(Form)
+        self.SimulationExecution.setObjectName(u"SimulationExecution")
+        self.SimulationExecution.setGeometry(QRect(540, 610, 111, 32))
+        self.SimulationExecution.setStyleSheet(u"\n"
+"QPushButton:hover\n"
+"{\n"
+"	border-style: solid;\n"
+"   	background-color:#bbdefb;\n"
+"\n"
+"}\n"
+"\n"
+"QPushButton:pressed\n"
+"{\n"
+"	 	background-color:#0069c0;\n"
+"}")
+
 
         self.retranslateUi(Form)
 
@@ -283,6 +311,10 @@ class MainWindowForm(object):
         self.CheckRouteAle.setFixedWidth(200)
         self.StaticExecution.setText(QCoreApplication.translate("Form", u"Ejecucion Estatica", None))
         self.DinamicExecution.setText(QCoreApplication.translate("Form", u"Ejecucion Dinamica", None))
+        self.SimulationExecution.setText(QCoreApplication.translate("Form", u"Simulacion", None))
+        self.radioButtonMaster.setText(QCoreApplication.translate("Form", u"Master", None))
+        self.radioButtonWorker.setText(QCoreApplication.translate("Form", u"Worker", None))
+        self.HOST_MASTER_LABEL.setText(QCoreApplication.translate("Form", u"HOST", None))
         self.label.setText(QCoreApplication.translate("Form", u"HOST", None))
         self.label_2.setText(QCoreApplication.translate("Form", u"PORT", None))
         self.label_7.setText(QCoreApplication.translate("Form", u"RUTA DE ARCHIVOS", None))

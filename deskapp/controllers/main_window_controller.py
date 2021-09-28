@@ -17,7 +17,7 @@ import logging
 load_dotenv()
 
 logging.basicConfig(level=logging.DEBUG)
-logging.basicConfig(filename='app.log', filemode='w', format='%(name)s - %(levelname)s - %(message)s')
+logging.basicConfig(filename='app.log', filemode='w', format='%(name)s - %(levelname)s - %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
 
 class EjecucionLoadThread(threading.Thread):
 
@@ -38,10 +38,11 @@ class EjecucionLoadThread(threading.Thread):
 
 class ThreadAlive(threading.Thread):
 
-    def __init__(self, buttonDinamic, buttonStatic, hilo):
+    def __init__(self, buttonDinamic, buttonStatic, buttonSimulation, hilo):
         threading.Thread.__init__(self)
         self.buttonDinamic= buttonDinamic
         self.buttonStatic= buttonStatic
+        self.buttonSimulation= buttonSimulation
         self.hilo=hilo
         self._stop_event = threading.Event()
 
@@ -106,6 +107,8 @@ class MainWindowController(QWidget, MainWindowForm):
         self.actualizarTabla.clicked.connect(self.refreshTable)
         self.eliminarRonda.clicked.connect(self.delete_route)
         self.agregarRonda.clicked.connect(self.aggregate_route)
+        self.radioButtonMaster.clicked.connect(self.radioButtonMasterClick)
+        self.radioButtonWorker.clicked.connect(self.radioButtonWorkerClick)
         self.LinePort.setPlaceholderText(self.PORT)
         self.LineHost.setPlaceholderText(self.HOST)
         self.LineRoute.setPlaceholderText(self.FILE_ROUTES_APP)
@@ -326,9 +329,14 @@ class MainWindowController(QWidget, MainWindowForm):
 
     def execution_dinamic(self):
         self.logging("Ejecucion dinamica de pruebas de carga y estres", "-v")
-        self.proceso_ejecucion= EjecucionLoadThread("python3 loadtestweb.py -d")
+        option_distributed=""
+        if(self.radioButtonMaster.isChecked()):
+            option_distributed=" -m"
+        elif(self.radioButtonWorker.isChecked()):
+            option_distributed=" -w " + self.HOST_MASTER
+        self.proceso_ejecucion= EjecucionLoadThread("python3 loadtestweb.py" + option_distributed + " -s")
         self.proceso_ejecucion.start()
-        self.proceso= ThreadAlive(self.DinamicExecution,self.StaticExecution, self.proceso_ejecucion)
+        self.proceso= ThreadAlive(self.DinamicExecution,self.StaticExecution, self.SimulationExecution, self.proceso_ejecucion)
         self.proceso.start()
 
     def execution_static(self):
@@ -339,12 +347,27 @@ class MainWindowController(QWidget, MainWindowForm):
         if(self.exclude_route):
             exclution= exclution + " " + self.exclude_route
         if(self.exclude_route or self.exclude_route_ale):
-            self.proceso_ejecucion= EjecucionLoadThread("python3 loadtestweb.py -s -E " + exclution)
-            self.proceso_ejecucion.start()
-        else:
-            self.proceso_ejecucion= EjecucionLoadThread("python3 loadtestweb.py -s")
-            self.proceso_ejecucion.start()
-        self.proceso= ThreadAlive(self.DinamicExecution,self.StaticExecution, self.proceso_ejecucion)
+            exclution= "-E " + exclution
+        option_distributed=""
+        if(self.radioButtonMaster.isChecked()):
+            option_distributed=" -m"
+        elif(self.radioButtonWorker.isChecked()):
+            option_distributed=" -w " + self.HOST_MASTER
+        self.proceso_ejecucion= EjecucionLoadThread("python3 loadtestweb.py" + exclution + option_distributed + " -s")
+        self.proceso_ejecucion.start()
+        self.proceso= ThreadAlive(self.DinamicExecution,self.StaticExecution, self.SimulationExecution, self.proceso_ejecucion)
+        self.proceso.start()
+
+    def execution_simulation(self):
+        self.logging('Ejecucion de simulacion de usuarios', '-v')
+        option_distributed=""
+        if(self.radioButtonMaster.isChecked()):
+            option_distributed=" -m"
+        elif(self.radioButtonWorker.isChecked()):
+            option_distributed=" -w " + self.HOST_MASTER
+        self.proceso_ejecucion= EjecucionLoadThread("python3 loadtestweb.py" + option_distributed + " -u")
+        self.proceso_ejecucion.start()
+        self.proceso= ThreadAlive(self.DinamicExecution,self.StaticExecution, self.SimulationExecution, self.proceso_ejecucion)
         self.proceso.start()
 
     def condition_route_ale(self):
@@ -379,3 +402,15 @@ class MainWindowController(QWidget, MainWindowForm):
             self.logging("Celda " + self.celda.__str__() +" eliminada.", "-v")
         else:
             self.logging("No hay celda seleccionada o archivo seleccionado.", "-q")
+
+    def radioButtonMasterClick(self):
+        self.logging('Metodo master: ' + str(self.radioButtonMaster.isChecked()), '-v')
+        self.radioButtonWorker.setChecked(False)
+
+    def radioButtonWorkerClick(self):
+        self.logging('Metodo worker: ' + str(self.radioButtonWorker.isChecked()), '-v')
+        if(not self.HOST_MASTER.text()):
+            self.logging('Se necesita establecer el host al que apunta el worker', '-q')
+            self.radioButtonWorker.setChecked(False)
+        self.radioButtonMaster.setChecked(False)
+
