@@ -16,6 +16,9 @@ import logging
 
 load_dotenv()
 
+logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(filename='app.log', filemode='w', format='%(name)s - %(levelname)s - %(message)s')
+
 class EjecucionLoadThread(threading.Thread):
 
     def __init__(self, command):
@@ -146,14 +149,17 @@ class MainWindowController(QWidget, MainWindowForm):
             return False
         return True
 
-
     def logging(self,text, valor):
-        self.errorLine.setText(text)
-        os.system("./logging.sh " + valor + " " + text)
-        if(valor == "-q"):
-            self.errorLine.setTextColor(QColor(255,0,0))
-        else:
+        if (valor == '-v'):
             self.errorLine.setTextColor(QColor(255,255,255))
+            logging.info(text)
+        elif (valor == '-vv'):
+            self.errorLine.setTextColor(QColor(255,255,255))
+            logging.debug(text)
+        elif (valor == '-q'):
+            self.errorLine.setTextColor(QColor(255,0,0))
+            logging.error(text)
+        self.errorLine.setText(text)
 
     def refresh(self):
         os.environ['HOST']= self.HOST

@@ -7,6 +7,10 @@ from dotenv import load_dotenv
 from tkinter import Tk
 from tkinter.filedialog import askopenfilename
 import os
+import logging
+
+logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(filename='app.log', filemode='w', format='%(name)s - %(levelname)s - %(message)s')
 
 class NuevaRutaController(QWidget, NuevaRuta):
 
@@ -26,7 +30,12 @@ class NuevaRutaController(QWidget, NuevaRuta):
     
     def logging(self,text, valor):
         self.error_ruta.setText(text)
-        os.system("./logging.sh " + valor + " " + text)
+        if (valor == '-v'):
+            logging.info(text)
+        elif (valor == '-vv'):
+            logging.debug(text)
+        elif (valor == '-q'):
+            logging.error(text)
 
     def aggregate_route(self):
         if(self.check_inputs()):
