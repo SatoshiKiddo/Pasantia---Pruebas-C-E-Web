@@ -50,7 +50,7 @@ class TareasSecuenciales(SequentialTaskSet):
     def read_random_request(self,archivo):
         with open(archivo) as f:
             lista_rutas= f.readlines()
-            if (lista_rutas.count()):
+            if (lista_rutas.__len__()):
                 numero = random.randint(0, lista_rutas.count() - 1)
                 line = lista_rutas[numero]
                 datos = line.split(',')

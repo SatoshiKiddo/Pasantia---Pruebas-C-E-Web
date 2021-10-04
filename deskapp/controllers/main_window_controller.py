@@ -50,10 +50,12 @@ class ThreadAlive(threading.Thread):
     def run(self):
         self.buttonDinamic.setDisabled(True)
         self.buttonStatic.setDisabled(True)
+        self.buttonSimulation.setDisabled(True)
         while(self.hilo.is_alive()):
             time.sleep(5)
         self.buttonDinamic.setDisabled(False)
         self.buttonStatic.setDisabled(False)
+        self.buttonSimulation.setDisabled(False)
 
     def stop(self):
         self._stop_event.set()
@@ -102,6 +104,7 @@ class MainWindowController(QWidget, MainWindowForm):
         self.DependencyAleFile.clicked.connect(self.select_file_dependencies_ale)
         self.DinamicExecution.clicked.connect(self.execution_dinamic)
         self.StaticExecution.clicked.connect(self.execution_static)
+        self.SimulationExecution.clicked.connect(self.execution_simulation)
         self.RouteTables.cellClicked.connect(self.cell_selected)
         self.RouteTables.cellChanged.connect(self.cell_changed)
         self.actualizarTabla.clicked.connect(self.refreshTable)
@@ -184,7 +187,11 @@ class MainWindowController(QWidget, MainWindowForm):
 
     def refreshTable(self):
         self.refresh()
-        self.populate_table(self.rutas)
+        rutas_items = []
+        for r in self.rutas:
+            ruta = r.replace('\n','').split(',')
+            rutas_items.append(ruta)
+        self.populate_table(rutas_items)
         self.refresh_file(self.FILE_SELECTED)
         self.celda=-1
 
@@ -333,8 +340,8 @@ class MainWindowController(QWidget, MainWindowForm):
         if(self.radioButtonMaster.isChecked()):
             option_distributed=" -m"
         elif(self.radioButtonWorker.isChecked()):
-            option_distributed=" -w " + self.HOST_MASTER
-        self.proceso_ejecucion= EjecucionLoadThread("python3 loadtestweb.py" + option_distributed + " -s")
+            option_distributed=" -w " + self.HOST_MASTER.text()
+        self.proceso_ejecucion= EjecucionLoadThread("python3 loadtestweb.py" + option_distributed + " -d")
         self.proceso_ejecucion.start()
         self.proceso= ThreadAlive(self.DinamicExecution,self.StaticExecution, self.SimulationExecution, self.proceso_ejecucion)
         self.proceso.start()
@@ -352,7 +359,7 @@ class MainWindowController(QWidget, MainWindowForm):
         if(self.radioButtonMaster.isChecked()):
             option_distributed=" -m"
         elif(self.radioButtonWorker.isChecked()):
-            option_distributed=" -w " + self.HOST_MASTER
+            option_distributed=" -w " + self.HOST_MASTER.text()
         self.proceso_ejecucion= EjecucionLoadThread("python3 loadtestweb.py" + exclution + option_distributed + " -s")
         self.proceso_ejecucion.start()
         self.proceso= ThreadAlive(self.DinamicExecution,self.StaticExecution, self.SimulationExecution, self.proceso_ejecucion)
@@ -364,7 +371,7 @@ class MainWindowController(QWidget, MainWindowForm):
         if(self.radioButtonMaster.isChecked()):
             option_distributed=" -m"
         elif(self.radioButtonWorker.isChecked()):
-            option_distributed=" -w " + self.HOST_MASTER
+            option_distributed=" -w " + self.HOST_MASTER.text()
         self.proceso_ejecucion= EjecucionLoadThread("python3 loadtestweb.py" + option_distributed + " -u")
         self.proceso_ejecucion.start()
         self.proceso= ThreadAlive(self.DinamicExecution,self.StaticExecution, self.SimulationExecution, self.proceso_ejecucion)

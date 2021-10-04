@@ -16,7 +16,7 @@ cd selenium-web-drivers
 
 ##MAC
 brew install --cask google-chrome
-wget -O ChromeDriver.zip https://chromedriver.storage.googleapis.com/92.0.4515.107/chromedriver_mac64.zip
+wget -O ChromeDriver.zip https://chromedriver.storage.googleapis.com/94.0.4606.61/chromedriver_mac64.zip
 unzip ChromeDriver.zip
 
 export CHROME_DRIVER=./selenium-web-drivers/chromedriver

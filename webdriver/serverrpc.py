@@ -22,7 +22,7 @@ def compraLibro():
     return True
 
 
-server = SimpleXMLRPCServer(("localhost", 8877))
-print("Listening on port 8877...")
+server = SimpleXMLRPCServer(("localhost", 8879))
+print("Listening on port 8879... - https://localhost:8879")
 server.register_function(compraLibro, "compraLibro")
 server.serve_forever()

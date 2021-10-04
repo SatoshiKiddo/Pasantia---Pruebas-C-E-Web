@@ -51,7 +51,7 @@ class TareasSimuladas(SequentialTaskSet):
         self.client.compraLibro()
 
 class EjecucionPruebas(XmlRpcUser):
-    host="http://127.0.0.1:8877/"
+    host="http://127.0.0.1:8878/"
     tasks= [TareasSimuladas]
     wait_time = constant(1)
 
