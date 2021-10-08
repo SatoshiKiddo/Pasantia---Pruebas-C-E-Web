@@ -3,24 +3,20 @@ from environment_config import carga_variables_entorno
 import os
 import getopt, sys
 
-exclution=""
-master=""
-worker=""
-
 def environment():
     carga_variables_entorno()
 
-def simulation():
+def simulation(exclution,master,worker):
     os.system("python3 ./webdriver/serverrpc.py &")
     os.system("locust " + master + exclution + worker + " -f user_simulation.py")
 
-def dinamic():
+def dinamic(exclution,master,worker):
     if os.path.exists("./scrappage/urls.json"):
         os.remove("./scrappage/urls.json")
     os.system("cd scrappage ; scrapy crawl scrapper -o urls.json ; cd ..")
     os.system("locust " + master + exclution + worker + " -f rutas_dinamicas.py")
 
-def static():
+def static(exclution,master,worker):
     if os.path.exists("./routes/routes.conf"):
         if os.path.exists("./routes/dependencies.conf"):
             os.system("locust " + master + exclution + worker + " -f rutas_fijas.py")
@@ -49,6 +45,9 @@ def main():
         sys.exit(2)
     output = None
     verbose = False
+    exclution=''
+    master=''
+    worker=''
     for o, a in opts:
         if o == "-v":
             verbose = True
@@ -63,19 +62,22 @@ def main():
             master=""
         elif o in ("-o", "--output"):
             output = a
-        elif o in ("-d", "--dinamic"):
-            ##Ejecucion dinamica de pruebas
-            dinamic()
-        elif o in ("-s", "--static"):
-            static()
         elif o in ("-e", "--env"):
             environment()
         elif o in ("-u", "--user-simulation"):
             simulation()
         elif o in ("-E", "--exclude"):
             exclution="-E"
-            for arg in a:
-                exclution= exclution + " " + arg
+            exclution= exclution + " " + a
+        elif o in ("-d", "--dinamic"):
+            ##Ejecucion dinamica de pruebas
+            dinamic(exclution,master,worker)
+        elif o in ("-s", "--static"):
+            ##Ejecucion estatica de pruebas
+            static(exclution,master,worker)
+        elif o in ("-u", "--user-simulation"):
+            ##Ejecucion de simulacion de usuario
+            simulation(exclution,master,worker)
         else:
             assert False, "unhandled option"
     # ...

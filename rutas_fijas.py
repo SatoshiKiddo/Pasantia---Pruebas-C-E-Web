@@ -51,7 +51,7 @@ class TareasSecuenciales(SequentialTaskSet):
         with open(archivo) as f:
             lista_rutas= f.readlines()
             if (lista_rutas.__len__()):
-                numero = random.randint(0, lista_rutas.count() - 1)
+                numero = random.randint(0, lista_rutas.__len__() - 1)
                 line = lista_rutas[numero]
                 datos = line.split(',')
                 if (datos[0] == "GET"): 
