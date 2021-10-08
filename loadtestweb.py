@@ -30,7 +30,14 @@ def static():
         print("El archivo routes.conf no esta configurado o creado.")
 
 def usage():
-    pass
+    print("\nEste comando permite centralizar todos los procedimientos acciones para la ejecucion de pruebas de carga y estres. Recuerde ir a la direccion especificada en su direccion *Localhost:8089*\n"
+    + "\t-h or --help: Indica la ayuda para la ejecucion del comando.\n"
+    + "\t-m or --master: Indica si el computador que ejecuta el comando es considerado como maestro para la herramienta Locust.\n"
+    + "\t-w [host:port] or --worker [host:port]: Indica si el computador que ejecuta el comando es considerado como un worker en locust y apunta al maestro especificado.\n"
+    + "\t-d or --dinamic: Indica que se ejecute el metodo de pruebas dinamicas usando Scrappy.\n"
+    + "\t-s or --static: Indica que se ejecute el metodo de pruebas estatica.\n"
+    + "\t-u or --user-simulation: Indica que e ejecute el metodo de simulacion de usuarios.\n")
+    + "\t-E or --exclude: Indica los tags a excluir segun el archivo de locust. Usualmente refiere a los proceso aleatorios o de orden segun la condicion del usuario.\n"
 
 def main():
     try:
